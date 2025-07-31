@@ -18,7 +18,7 @@ public class UserService {
 
     public UserService(EmailService emailService) {
         this.keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8080")
+                .serverUrl("http://keycloak:8080")
                 .realm("master")
                 .clientId("admin-cli")
                 .username("admin1")

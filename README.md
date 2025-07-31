@@ -40,3 +40,7 @@ You will see changed made programmatically appear here.
 - `POST /api/users`: Create a new user.
 
 The requests should be made using the base URL: `http://localhost:8081/`.
+
+## Email Notifications
+The Email service is configured to send notifications when a new user is created. The email service uses Gmail STMP server. 
+The configuration can be found in `.env` file under the `EMAIL` section. You can change the email and password to your own credentials. It currently uses my email and an app password.

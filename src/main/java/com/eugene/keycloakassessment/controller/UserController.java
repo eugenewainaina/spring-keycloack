@@ -36,4 +36,10 @@ public class UserController {
     public List<UserRepresentation> listUsers(@RequestParam String realm) {
         return userService.getUsers(realm);
     }
+
+    // Get details of a specific user.
+    @GetMapping("/{userId}")
+    public UserRepresentation getUser(@RequestParam String realm, @PathVariable String userId) {
+        return userService.getUserById(realm, userId);
+    }
 }

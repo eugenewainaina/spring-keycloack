@@ -27,6 +27,7 @@ public class UserService {
         this.emailService = emailService;
     }
 
+    // Create a user in the specified realm
     public void createUser(String realm, String firstName, String lastName, String username, String email, String tempPassword) {
         UserRepresentation user = new UserRepresentation();
         user.setUsername(username);
@@ -48,7 +49,28 @@ public class UserService {
         emailService.sendUserCredentials(email, firstName, lastName, username, tempPassword, realm);
     }
 
+    // List all users in the specified organisation
     public List<UserRepresentation> getUsers(String realm) {
         return keycloak.realm(realm).users().list();
     }
+
+    // Get details of a specific user
+    public UserRepresentation getUserById(String realm, String userId) {
+        return keycloak.realm(realm).users().get(userId).toRepresentation();
+    }
+
+    // Update a user’s details
+    public void updateUser(String realm, String userId, String firstName, String lastName, String email) {
+        UserRepresentation user = keycloak.realm(realm).users().get(userId).toRepresentation();
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        keycloak.realm(realm).users().get(userId).update(user);
+    }
+
+    // Delete a user
+    public void deleteUser(String realm, String userId) {
+        keycloak.realm(realm).users().get(userId).remove();
+    }
+
 }

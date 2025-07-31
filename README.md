@@ -71,6 +71,12 @@ Once running, the services will be available at:
 - **Spring Boot Application**: http://localhost:8081
 - **PostgreSQL Database**: localhost:5432
 
+## Project Build
+In case you modify the code, remember to do this in the root dir
+```bash
+./gradlew clean build
+```
+
 ## Keycloak Configuration
 
 ### Admin Access

@@ -1,9 +1,9 @@
 package com.eugene.keycloakassessment.service;
 
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -14,14 +14,9 @@ public class UserService {
     private final Keycloak keycloak;
     private final EmailService emailService;
 
-    public UserService(EmailService emailService) {
-        this.keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://keycloak:8080")
-                .realm("master")
-                .clientId("admin-cli")
-                .username("admin1")
-                .password("admin1_password")
-                .build();
+    @Autowired
+    public UserService(Keycloak keycloak, EmailService emailService) {
+        this.keycloak = keycloak;
         this.emailService = emailService;
     }
 

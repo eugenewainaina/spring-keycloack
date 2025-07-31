@@ -31,6 +31,7 @@ cd "Spring Boot Keycloak Assessment"
 The application uses environment variables defined in the `.env` file. The file contains configuration for:
 - PostgreSQL database credentials
 - Keycloak admin credentials
+- **Keycloak client configuration** (for secure API access)
 - Gmail SMTP settings
 
 **Important**: Update the email credentials in `.env` file before running:
@@ -79,7 +80,22 @@ Access the Keycloak Admin Console at http://localhost:8080/admin using:
 
 ### Automatic Configuration
 
-The application automatically configures Keycloak through the `KeycloakService`:
+The application automatically configures Keycloak through the `KeycloakService` using secure environment-based configuration:
+
+#### Security Implementation
+- **Keycloak Admin Client**: Configured via environment variables in `.env` file
+- **No Hardcoded Credentials**: All sensitive data is externalized
+- **Configuration Bean**: `KeycloakConfig` class manages secure Keycloak client initialization
+- **Dependency Injection**: Services use Spring's dependency injection for the Keycloak client
+
+#### Environment Variables for Keycloak
+```properties
+KEYCLOAK_SERVER_URL=http://keycloak:8080
+KEYCLOAK_ADMIN_REALM=master
+KEYCLOAK_ADMIN_CLIENT_ID=admin-cli
+KEYCLOAK_ADMIN_CLIENT_USERNAME=admin1
+KEYCLOAK_ADMIN_CLIENT_PASSWORD=admin1_password
+```
 
 #### Realm Creation
 - When an Organization is created via the REST API, a corresponding Keycloak realm is automatically created
@@ -247,7 +263,8 @@ src/
 │   ├── java/com/eugene/keycloakassessment/
 │   │   ├── SpringBootKeycloakAssessmentApplication.java
 │   │   ├── config/
-│   │   │   └── SecurityConfig.java
+│   │   │   ├── SecurityConfig.java
+│   │   │   └── KeycloakConfig.java          # Secure Keycloak configuration
 │   │   ├── controller/
 │   │   │   ├── OrganizationController.java
 │   │   │   └── UserController.java
@@ -261,11 +278,11 @@ src/
 │   │       ├── OrganizationService.java
 │   │       └── UserService.java
 │   └── resources/
-│       └── application.properties
+│       └── application.properties           # Environment variable mapping
 ├── test/
-└── docker-compose.yml
+└── docker-compose.yml                       # Updated with Keycloak env vars
 ├── Dockerfile
-├── .env
+├── .env                                     # Secure credential storage
 └── README.md
 ```
 

@@ -1,9 +1,9 @@
 package com.eugene.keycloakassessment.service;
 
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.admin.client.KeycloakBuilder;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -13,14 +13,9 @@ public class KeycloakService {
 
     private final Keycloak keycloak;
 
-    public KeycloakService() {
-        this.keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://keycloak:8080")
-                .realm("master")
-                .clientId("admin-cli")
-                .username("admin1")
-                .password("admin1_password")
-                .build();
+    @Autowired
+    public KeycloakService(Keycloak keycloak) {
+        this.keycloak = keycloak;
     }
 
     public void createRealm(String realmName) {
